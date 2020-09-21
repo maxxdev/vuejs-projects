@@ -1,5 +1,12 @@
 <template>
-  <div>
+
+  <v-progress-circular v-if="loading"
+                       indeterminate
+                       size="64"
+                       color="primary"
+  ></v-progress-circular>
+
+  <div v-else>
     <v-card v-for="item in computedItems" :key="item.id">
       <v-card-title class="headline">
         {{ item.id }}
@@ -25,9 +32,9 @@
 export default {
   name: "index",
   async fetch({store}) {
- //  if (store.getters['items/items'].length === 0) {
-      await store.dispatch('items/fetch')
- //   }
+    //  if (store.getters['items/items'].length === 0) {
+    //await store.dispatch('items/fetch')
+    //   }
   },
   computed: {
     computedItems() {
@@ -38,7 +45,13 @@ export default {
     //const items = await $axios.$get('https://jsonplaceholder.typicode.com/photos')
     //return {items}
   },
+  async mounted() {
+    await this.$store.dispatch('items/fetch')
+    this.loading = false
+  },
+
   data: () => ({
+    loading: true,
     items: []
   }),
 }
