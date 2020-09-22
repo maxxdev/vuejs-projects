@@ -8,8 +8,11 @@ export const mutations = {
 }
 export const actions = {
   async fetch({commit}) {
-    const items = await this.$axios.$get('https://jsonplaceholder.typicode.com/photos?limit=100')
+    const items = await this.$axios.$get('http://invaskapi.development/api/v1/items')
     commit('setItems', items)
+  },
+  clear({commit}) {
+    commit('setItems', [])
   }
 }
 

@@ -7,19 +7,22 @@
   ></v-progress-circular>
 
   <div v-else>
-    <v-card v-for="item in computedItems" :key="item.id">
+    <v-card v-for="item in computedItems" :key="item.cat_number">
       <v-card-title class="headline">
-        {{ item.id }}
+        {{ item.model }}
       </v-card-title>
       <v-card-text>
-        <p>Item: {{ item.title }}</p>
-        <p>Url: {{ item.url }} </p>
+        <p>Item: {{ item.name }}</p>
+        <p>Price: {{ item.price }} Rub</p>
+        <p>Qty: {{ item.qty }}</p>
+        <p>Brand Id: {{ item.brand_id }}</p>
+        <p>Category Id: {{ item.category_id }}</p>
       </v-card-text>
       <v-card-actions>
         <v-btn
           color="primary"
           nuxt
-          :to="`/items/${item.id}`"
+          :to="`/items/${item.cat_number}`"
         >
           Details
         </v-btn>
@@ -38,7 +41,7 @@ export default {
   },
   computed: {
     computedItems() {
-      return this.$store.getters['items/items']
+      return this.$store.getters['items/items'].items
     }
   },
   async asyncData({$axios}) {
@@ -54,6 +57,10 @@ export default {
     loading: true,
     items: []
   }),
+  beforeDestroy() {
+    this.$store.dispatch('items/clear')
+    console.log('Before destroy ')
+  }
 }
 </script>
 
